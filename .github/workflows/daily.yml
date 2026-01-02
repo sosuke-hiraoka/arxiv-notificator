@@ -2,31 +2,26 @@ name: Daily Paper Notification
 
 on:
   schedule:
-    # Run daily at JST 10:00 (UTC 01:00)
+    # 毎日 日本時間 10:00 (UTC 01:00) に実行
     - cron: '0 1 * * *'
-  workflow_dispatch:
-    # Allow manual trigger from GitHub UI
+  workflow_dispatch: # 手動実行ボタン
 
 jobs:
   notify:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@v5
         with:
-          version: "latest"
+          enable-cache: true # キャッシュを有効にして爆速化
 
       - name: Set up Python
         run: uv python install 3.11
 
-      - name: Install dependencies
-        run: uv sync
-
-      - name: Run Paper Notificator
+      - name: Run script
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        run: uv run python main.py
+        # uv run を使うことで、uv.lockに基づいた正確な環境で実行されます
+        run: uv run python main.py --top-n 5
