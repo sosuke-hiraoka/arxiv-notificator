@@ -1,0 +1,18 @@
+[project]
+name = "arxiv-notificator"
+version = "0.1.0"
+description = "Fetch popular papers from Hugging Face Daily Papers and post to Slack"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
