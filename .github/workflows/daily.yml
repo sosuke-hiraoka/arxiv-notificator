@@ -32,6 +32,7 @@ jobs:
         run: uv run python main.py --top-n 5
 
       - name: Create PR for history.json
+        id: history-pr
         uses: peter-evans/create-pull-request@v7
         with:
           add-paths: history.json
@@ -40,3 +41,10 @@ jobs:
           title: "chore: update history.json"
           body: "送信済み論文の履歴を自動更新します。"
           delete-branch: true
+
+      - name: Auto-merge PR
+        if: steps.history-pr.outputs.pull-request-number
+        run: gh pr merge ${{ steps.history-pr.outputs.pull-request-number }} --merge --delete-branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+
