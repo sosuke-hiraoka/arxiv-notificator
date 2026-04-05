@@ -6,7 +6,7 @@
 ## Requirements
 
 ### Requirement 1: 論文データ取得機能
-**Objective:** As a 研究者/エンジニア, I want Hugging Face Daily Papersから人気論文を自動取得したい, so that 最新のAI/ML研究動向を効率的に把握できる
+**Objective:** As a reseacher/enginner, I want Hugging Face Daily Papere to get automatically, so that catch up latest AI/ML reseach movement. 
 
 #### Acceptance Criteria
 1. When the system executes, the Paper Notificator shall fetch papers from Hugging Face Daily Papers (https://huggingface.co/papers)
