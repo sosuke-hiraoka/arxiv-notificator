@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
 
@@ -30,10 +31,12 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: uv run python main.py --top-n 5
 
-      - name: Commit history.json
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add history.json
-          git diff --staged --quiet || git commit -m "Update history.json [skip ci]"
-          git push
+      - name: Create PR for history.json
+        uses: peter-evans/create-pull-request@v7
+        with:
+          add-paths: history.json
+          commit-message: "chore: update history.json"
+          branch: auto/update-history
+          title: "chore: update history.json"
+          body: "送信済み論文の履歴を自動更新します。"
+          delete-branch: true
